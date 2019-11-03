@@ -40,7 +40,7 @@ namespace MachineLearningWithMetrics.Metrics
             
             
             var scheduler = new AppMetricsTaskScheduler(
-            TimeSpan.FromSeconds(3),
+            TimeSpan.FromSeconds(5),
              async () =>
              {
                  await Task.WhenAll(Metrics.ReportRunner.RunAllAsync());

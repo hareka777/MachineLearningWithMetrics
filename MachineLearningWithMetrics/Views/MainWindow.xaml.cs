@@ -10,8 +10,10 @@ namespace MachineLearningWithMetrics
     {
         public MainWindow()
         {
+            
             InitializeComponent();
             DataContext = new MainPageViewModel();
+            
         }
     }
 }

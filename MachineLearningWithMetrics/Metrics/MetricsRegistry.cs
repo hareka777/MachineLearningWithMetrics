@@ -13,7 +13,6 @@ namespace MachineLearningWithMetrics.Metrics
             MeasurementUnit = Unit.Items,
             DurationUnit = TimeUnit.Milliseconds,
             RateUnit = TimeUnit.Milliseconds,
-            //Reservoir = () => new DefaultForwardDecayingReservoir(sampleSize: 1028, alpha: 0.015)
         };
 
         public static GaugeOptions MemoryUsage => new GaugeOptions
@@ -26,6 +25,18 @@ namespace MachineLearningWithMetrics.Metrics
         {
             Name = "Current CPU Usage",
             MeasurementUnit = Unit.Percent
+        };
+
+        public static GaugeOptions NetworkEvaluatingResult => new GaugeOptions
+        {
+            Name = "Network Evaluating Result",
+            MeasurementUnit = Unit.None
+        };
+
+        public static GaugeOptions TrainTestRate => new GaugeOptions
+        {
+            Name = "TrainTestRate",
+            MeasurementUnit = Unit.None
         };
 
     }
