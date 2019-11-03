@@ -173,6 +173,9 @@
     <Compile Include="MLdotNET\Predictors\MNISTPredictor.cs" />
     <Compile Include="MLdotNET\Predictors\WineQualityPredictor.cs" />
     <Compile Include="ViewModels\Commands\CommandHandler.cs" />
+    <Compile Include="ViewModels\Converters\EnumConverter.cs" />
+    <Compile Include="ViewModels\Converters\EnumHelper.cs" />
+    <Compile Include="ViewModels\Converters\ValueDescription.cs" />
     <Compile Include="ViewModels\DigitDisplayWindowViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Page Include="Views\MainWindow.xaml">

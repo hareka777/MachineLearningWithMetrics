@@ -2,10 +2,13 @@
 using MachineLearningWithMetrics.Metrics;
 using MachineLearningWithMetrics.MLdotNET;
 using MachineLearningWithMetrics.MLdotNET.Predictors;
+using MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes;
 using MachineLearningWithMetrics.ViewModels.Commands;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MachineLearningWithMetrics.ViewModels
@@ -13,10 +16,141 @@ namespace MachineLearningWithMetrics.ViewModels
     public class MainPageViewModel : INotifyPropertyChanged
     {
 
-        #region Events and Fields
+        #region Events, Fields and Properties
 
         public event PropertyChangedEventHandler PropertyChanged;
-        IMetricsRoot metrics;
+
+        private IPredictor selectedProblem;
+        public IPredictor SelectedProblem
+        {
+            get
+            {
+                return this.selectedProblem;
+            }
+            set
+            {
+                this.selectedProblem = value;
+            }
+        }
+
+        private Algorithms.BinaryClassificationTrainingAlgorithm selectedBinaryAlgorithm;
+        public Algorithms.BinaryClassificationTrainingAlgorithm SelectedBinaryAlgorithm
+        {
+            get
+            {
+                return this.selectedBinaryAlgorithm;
+            }
+            set
+            {
+                this.selectedBinaryAlgorithm = value;
+            }
+        }
+
+        private Algorithms.MultiClassificationTrainingAlgorithm selectedMultiAlgorithm;
+        public Algorithms.MultiClassificationTrainingAlgorithm SelectedMultiAlgorithm
+        {
+            get
+            {
+                return this.selectedMultiAlgorithm;
+            }
+            set
+            {
+                this.selectedMultiAlgorithm = value;
+            }
+        }
+
+        private Algorithms.RegressionTrainingAlgorithm selectedRegressionAlgorithm;
+        public Algorithms.RegressionTrainingAlgorithm SelectedRegressionAlgorithm
+        {
+            get
+            {
+                return this.selectedRegressionAlgorithm;
+            }
+            set
+            {
+                this.selectedRegressionAlgorithm = value;
+            }
+        }
+        private IMetricsRoot metrics;
+
+        private Algorithms.BinaryClassificationTrainingAlgorithm binaryAlgorithms;
+        public Algorithms.BinaryClassificationTrainingAlgorithm BinaryAlgorithms
+        {
+            get { return this.binaryAlgorithms; }
+            set { this.binaryAlgorithms = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(binaryAlgorithms)));
+            }
+        }
+
+        private Algorithms.MultiClassificationTrainingAlgorithm multiAlgorithms;
+        public Algorithms.MultiClassificationTrainingAlgorithm MultiAlgorithms
+        {
+            get { return this.multiAlgorithms; }
+            set
+            {
+                this.multiAlgorithms = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MultiAlgorithms)));
+            }
+        }
+
+        private Algorithms.RegressionTrainingAlgorithm regressionAlgorithms;
+        public Algorithms.RegressionTrainingAlgorithm RegressionAlgorithms
+        {
+            get { return this.regressionAlgorithms; }
+            set
+            {
+                this.regressionAlgorithms = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RegressionAlgorithms)));
+            }
+        }
+
+        #endregion
+
+        #region Collections
+        private ObservableCollection<IPredictor> problems = new ObservableCollection<IPredictor>();
+        public ObservableCollection<IPredictor> Problems
+        {
+            get{return this.problems;}
+
+            set
+            {
+                this.problems = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Problems)));
+            }
+        }
+
+        private ObservableCollection<string> trainingAlgo = new ObservableCollection<string>();
+        public ObservableCollection<string>  TrainingAlgo
+        {
+            get { return this.trainingAlgo; }
+
+            set
+            {
+                this.trainingAlgo = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TrainingAlgo)));
+            }
+        }
+
+        private double[] trainingTestRate;
+
+        public double[] TrainingTestRate
+        {
+            get { return trainingTestRate; }
+            set { trainingTestRate = value;          
+                
+            }
+        }
+
+        private double selectedTrainingTestRate;
+
+        public double SelectedTrainingTestRate
+        {
+            get { return selectedTrainingTestRate; }
+            set
+            {
+                this.selectedTrainingTestRate = value;
+            }
+        }
 
         #endregion
 
@@ -24,10 +158,27 @@ namespace MachineLearningWithMetrics.ViewModels
         public MainPageViewModel()
         {
             InitializeMetrics();
+            SetProblems();
+            SetRate();
+        }
+
+        private void SetRate()
+        {
+            this.TrainingTestRate = new double[]
+            {
+                0.1,
+                0.2,
+                0.3,
+                0.4,
+                0.5,
+                0.6,
+                0.7,
+                0.8,
+                0.9
+            };
         }
         #endregion
 
-        
 
         #region Commands
         private ICommand _startInfluxCommand;
@@ -38,6 +189,7 @@ namespace MachineLearningWithMetrics.ViewModels
         private ICommand _startEuroCommand;
         private ICommand _startWineQualityCommand;
         private ICommand _startBankNotesCommand;
+        private ICommand _startNetworkCommand;
 
         public ICommand StartInfluxCommand
         {
@@ -158,6 +310,39 @@ namespace MachineLearningWithMetrics.ViewModels
         {
             BankNotePredictor bankNotePredictor = new BankNotePredictor();
         }
+
+        public ICommand StartNetworkCommand
+        {
+            get
+            {
+                return _startNetworkCommand ?? (_startNetworkCommand = new CommandHandler(() => StartNetwork(), () => CanExecute));
+            }
+        }
+
+        public void StartNetwork()
+        {
+            try
+            {
+                this.SelectedProblem.TrainTestDataRate = this.SelectedTrainingTestRate;
+                switch (SelectedProblem)
+                {
+                    case BankNotePredictor bankNotePredictor:
+                        SelectedProblem.SetAlgorithm(this.SelectedBinaryAlgorithm);
+                        break;
+                    case MNIST28Predictor mNIST28Predictor:
+                        SelectedProblem.SetAlgorithm(this.SelectedMultiAlgorithm);
+                        break;
+                    case EuroPredictor euroPredictor:
+                        SelectedProblem.SetAlgorithm(this.RegressionAlgorithms);
+                        break;
+                }
+                this.SelectedProblem.ProcessNetwork();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Hiba");
+            }
+        }
         #endregion
 
         #region Properties
@@ -173,7 +358,15 @@ namespace MachineLearningWithMetrics.ViewModels
             }
         }
 
+        #endregion
 
+        #region Private methods
+        private void SetProblems()
+        {
+            this.problems.Add(new BankNotePredictor());
+            this.problems.Add(new MNIST28Predictor());
+            this.problems.Add(new EuroPredictor());
+        }
         #endregion
     }
 }

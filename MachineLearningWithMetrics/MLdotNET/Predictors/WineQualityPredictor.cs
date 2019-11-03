@@ -24,7 +24,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         private string trainingDataPath = dataFolderPath + @"\winequality-white.csv";
         private string testDataPath = dataFolderPath + @"\winequality-white.csv";
 
-        MultiClassificationTrainingAlgo trainingAlgo;
+        MultiClassificationTrainingAlgorithm trainingAlgo;
 
         IMetricsRoot _metrics;
         #endregion
@@ -34,11 +34,11 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         public WineQualityPredictor()
         {
             this._metrics = MetricsInitializer.Metrics;
-            trainingAlgo = MultiClassificationTrainingAlgo.NaiveBayes;
+            trainingAlgo = MultiClassificationTrainingAlgorithm.NaiveBayes;
             ProcessNetwork();
         }
 
-        public WineQualityPredictor(MultiClassificationTrainingAlgo trainingAlgo)
+        public WineQualityPredictor(MultiClassificationTrainingAlgorithm trainingAlgo)
         {
             this._metrics = MetricsInitializer.Metrics;
             this.trainingAlgo = trainingAlgo;
@@ -49,7 +49,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
 
         #region Implemeting Abstact Methods
 
-        internal override void ProcessNetwork()
+        public override void ProcessNetwork()
         {
             EstimatorChain<ITransformer> pipeline = null;
 
@@ -142,7 +142,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                 .Append(mlContext.Transforms.NormalizeLogMeanVariance(outputColumnName: nameof(WineQualityInput.Alcohol)));
 
             // STEP 3: Set the training algorithm, then create and config the modelBuilder
-            var trainer = ApplyTrainingAlgo(mlContext, trainingAlgo);
+            var trainer = ApplyMultiTrainingAlgorithm(mlContext, trainingAlgo);
 
 
             var trainingPipeline = dataPrepration
@@ -157,6 +157,11 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         }
 
         internal override void TestSomePredictions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetAlgorithm(object algo)
         {
             throw new NotImplementedException();
         }
