@@ -22,7 +22,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         private IDataView testData = null;
         private ITransformer trainedModel;
 
-
         private string dataPath = dataFolderPath + @"\Euro24hrData.csv";
 
         public RegressionTrainingAlgorithm TrainingAlgo
