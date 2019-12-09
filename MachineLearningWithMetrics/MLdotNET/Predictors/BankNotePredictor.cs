@@ -59,7 +59,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                         separatorChar: ','
                         );
             }
-            //var shuffledData = ShuffleData(loadedData);
+
             return loadedData;
         }
 
@@ -162,16 +162,16 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             //testing some predictions
             var predEngine = mlContext.Model.CreatePredictionEngine<BankNotesInput, BankNotesOutput>(trainedModel);
 
-            var resultprediction0 = predEngine.Predict(SampleBankNotesDatacs.Authentic1);
+            var resultprediction0 = predEngine.Predict(SampleBankNotesData.Authentic1);
             ShowPrediction("Authentic", resultprediction0);
 
-            var resultprediction1 = predEngine.Predict(SampleBankNotesDatacs.Authentic2);
+            var resultprediction1 = predEngine.Predict(SampleBankNotesData.Authentic2);
             ShowPrediction("Authentic", resultprediction1);
 
-            var resultprediction2 = predEngine.Predict(SampleBankNotesDatacs.InAuthentic1);
+            var resultprediction2 = predEngine.Predict(SampleBankNotesData.InAuthentic1);
             ShowPrediction("InAuthentic", resultprediction2);
 
-            var resultprediction3 = predEngine.Predict(SampleBankNotesDatacs.InAuthentic2);
+            var resultprediction3 = predEngine.Predict(SampleBankNotesData.InAuthentic2);
             ShowPrediction("InAuthentic", resultprediction3);
         }
         #endregion
@@ -193,7 +193,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             return pipeline;
         }
 
-        private ITransformer Train(EstimatorChain</*BinaryPredictionTransformer<CalibratedModelParametersBase<FastTreeBinaryModelParameters, PlattCalibrator>>*/ ITransformer> pipeline)
+        private ITransformer Train(EstimatorChain< ITransformer> pipeline)
         {
             return pipeline.Fit(trainingData);
         }

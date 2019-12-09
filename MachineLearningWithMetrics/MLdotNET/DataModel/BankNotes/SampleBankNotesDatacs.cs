@@ -1,6 +1,6 @@
 ﻿namespace MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes
 {
-    public class SampleBankNotesDatacs
+    public class SampleBankNotesData
     {
         #region Private Fields
         private static BankNotesInput authentic1 = new BankNotesInput()

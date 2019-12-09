@@ -27,10 +27,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         internal abstract void TestSomePredictions();
         public abstract void ProcessNetwork();
         public abstract void SetAlgorithm(object algo);
-        internal IDataView ShuffleData(IDataView loadedData)
-        {
-            return mlContext.Data.ShuffleRows(loadedData, seed: 37);
-        }
+
         internal void AppendTrainingTestDataRate(IDataView data)
         {
             TrainTestData allData = mlContext.Data.TrainTestSplit(data, testFraction: trainTestDataRate);

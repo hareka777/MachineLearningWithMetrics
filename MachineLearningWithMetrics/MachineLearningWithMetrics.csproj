@@ -153,25 +153,15 @@
     <Compile Include="MLdotNET\DataModel\Eurorate\EuroDataModel.cs" />
     <Compile Include="MLdotNET\DataModel\Eurorate\EuroDataModelOutput.cs" />
     <Compile Include="MLdotNET\DataModel\Eurorate\SampleEuroData.cs" />
-    <Compile Include="MLdotNET\DataModel\HeartDisease\HeartData.cs" />
-    <Compile Include="MLdotNET\DataModel\HeartDisease\HeartPrediction.cs" />
-    <Compile Include="MLdotNET\DataModel\HeartDisease\HeartSampleData.cs" />
     <Compile Include="MLdotNET\DataModel\MNIST28\MNIST28DataModel.cs" />
     <Compile Include="MLdotNET\DataModel\MNIST28\MNIST28DataModelOutput.cs" />
     <Compile Include="MLdotNET\DataModel\MNIST28\Mnist28SampleData.cs" />
-    <Compile Include="MLdotNET\DataModel\MNIST\InputData.cs" />
-    <Compile Include="MLdotNET\DataModel\MNIST\OutputData.cs" />
-    <Compile Include="MLdotNET\DataModel\MNIST\SampleMNISTData.cs" />
-    <Compile Include="MLdotNET\DataModel\WineQuality\WineQualityInput.cs" />
     <Compile Include="MLdotNET\Predictors\BankNotePredictor.cs" />
     <Compile Include="MLdotNET\Predictors\Common Classes\Algorithms.cs" />
     <Compile Include="MLdotNET\Predictors\EuroPredictor.cs" />
-    <Compile Include="MLdotNET\Predictors\HeartPredictor.cs" />
     <Compile Include="MLdotNET\Paths.cs" />
     <Compile Include="MLdotNET\Predictors\Common Classes\IPredictor.cs" />
     <Compile Include="MLdotNET\Predictors\MNIST28Predictor.cs" />
-    <Compile Include="MLdotNET\Predictors\MNISTPredictor.cs" />
-    <Compile Include="MLdotNET\Predictors\WineQualityPredictor.cs" />
     <Compile Include="ViewModels\Commands\CommandHandler.cs" />
     <Compile Include="ViewModels\Converters\EnumConverter.cs" />
     <Compile Include="ViewModels\Converters\EnumHelper.cs" />
@@ -213,8 +203,6 @@
     <None Include="InfluxDB\influxdb.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="MLdotNET\Data\HeartDisease\HeartDisease.csv" />
-    <None Include="MLdotNET\Data\HeartDisease\HeartDiseaseTraining.csv" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -227,7 +215,6 @@
   <ItemGroup>
     <Folder Include="MLdotNET\Data\BankNotes\" />
     <Folder Include="MLdotNET\Data\MNIST\" />
-    <Folder Include="MLdotNET\Data\WineQuality\" />
     <Folder Include="MLdotNET\Networks\" />
   </ItemGroup>
   <ItemGroup>

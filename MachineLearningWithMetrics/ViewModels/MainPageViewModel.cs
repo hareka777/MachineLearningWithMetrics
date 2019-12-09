@@ -210,22 +210,8 @@ namespace MachineLearningWithMetrics.ViewModels
         public void InitializeMetrics()
         {
             metrics = MetricsInitializer.Metrics;
-            //MetricsInitializer metricsInitializer = new MetricsInitializer();
         }
 
-        public ICommand StartMLdotNETCommand
-        {
-            get
-            {
-                return _startMLdotNETCommand ?? (_startMLdotNETCommand = new CommandHandler(() => StartMLdotNET(), () => CanExecute));
-            }
-        }       
-
-        public void StartMLdotNET()
-        {
-            HeartPredictor heartPredictor = new HeartPredictor();
-            this.MLdotNETPaths = heartPredictor.GetPath();
-        }
 
         public ICommand StartGrafanaCommand
         {
@@ -238,19 +224,6 @@ namespace MachineLearningWithMetrics.ViewModels
         public void StartGrafana()
         {
             Process.Start("http://localhost:3000/d/RZBikTpWk/new-dashboard-copy?orgId=1");
-        }
-
-        public ICommand StartMNISTCommand
-        {
-            get
-            {
-                return _startMNISTCommand ?? (_startMNISTCommand = new CommandHandler(() => StartMNIST(), () => CanExecute));
-            }
-        }
-
-        public void StartMNIST()
-        {
-            MNISTPredictor mnistPredictor = new MNISTPredictor();
         }
 
         public ICommand StartMNIST28Command
@@ -279,18 +252,6 @@ namespace MachineLearningWithMetrics.ViewModels
             EuroPredictor euroPredictor = new EuroPredictor();
         }
 
-        public ICommand StartWineQualityCommand
-        {
-            get
-            {
-                return _startWineQualityCommand ?? (_startWineQualityCommand = new CommandHandler(() => StartWineQualiy(), () => CanExecute));
-            }
-        }
-
-        public void StartWineQualiy()
-        {
-            WineQualityPredictor wineQualityPredictor = new WineQualityPredictor();
-        }
 
         public ICommand StartBankNotesCommand
         {
@@ -334,7 +295,7 @@ namespace MachineLearningWithMetrics.ViewModels
             }
             catch(Exception e)
             {
-                MessageBox.Show("Hiba");
+                MessageBox.Show("Error"+ e.Message);
             }
         }
         #endregion

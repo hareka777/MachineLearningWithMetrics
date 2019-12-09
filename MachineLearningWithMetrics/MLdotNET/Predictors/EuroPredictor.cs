@@ -1,11 +1,7 @@
 ﻿using App.Metrics;
 using MachineLearningWithMetrics.Metrics;
 using MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate;
-using MachineLearningWithMetrics.MLdotNET.DataModel.MNIST;
 using Microsoft.ML;
-using Microsoft.ML.Data;
-using Microsoft.ML.Transforms;
-using System;
 using System.Windows;
 using static MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algorithms;
 using static Microsoft.ML.DataOperationsCatalog;
@@ -18,8 +14,8 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         private static readonly string dataFolderPath = Paths.dataFolderPath + @"\Euro";
         private readonly string dataModelFolderPath = Paths.dataModelFolderPath;
         private readonly string networkPath = Paths.networkModelFolderPath + @"\Euro.zip";
-        private IDataView trainingData = null;
-        private IDataView testData = null;
+        private IDataView trainingData;
+        private IDataView testData;
         private ITransformer trainedModel;
 
         private string dataPath = dataFolderPath + @"\Euro24hrData.csv";
@@ -133,22 +129,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
 
         }
 
-        public EstimatorChain<KeyToValueMappingTransformer> ConfigureNetwork(MLContext context)
-        {
-            // STEP 2: Common data process configuration with pipeline data transformations
-            // Use in-memory cache for small/medium datasets to lower training time. Do NOT use it (remove .AppendCacheCheckpoint()) when handling very large datasets.
-            var dataProcessPipeline = context.Transforms.Conversion.MapValueToKey("Label", "Number", keyOrdinality: ValueToKeyMappingEstimator.KeyOrdinality.ByValue)
-                .Append(context.Transforms.Concatenate("Features", nameof(InputData.PixelValues))
-                .AppendCacheCheckpoint(context));
-
-            // STEP 3: Set the training algorithm, then create and config the modelBuilder
-            var trainer = context.MulticlassClassification.Trainers.SdcaMaximumEntropy(labelColumnName: "Label", featureColumnName: "Features");
-            var trainingPipeline = dataProcessPipeline
-                .Append(trainer)
-                .Append(context.Transforms.Conversion.MapKeyToValue("Number", "Label"));
-
-            return trainingPipeline;
-        }
         public override string ToString()
         {
             return "Euro price(Regression)";

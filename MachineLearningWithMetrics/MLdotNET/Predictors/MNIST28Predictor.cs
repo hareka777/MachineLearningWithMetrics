@@ -161,7 +161,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             var predictions = trainedModel.Transform(testData);
             var metrics = mlContext.MulticlassClassification.Evaluate(data: predictions, labelColumnName: "Digit", scoreColumnName: "Score");
             _metrics.Measure.Gauge.SetValue(MetricsRegistry.TrainTestRate, MetricsTags.CreateMetricsTags(new string[] { "Network" }, new string[] { nameof(MNIST28Predictor) }), TrainTestDataRate);
-            _metrics.Measure.Gauge.SetValue(MetricsRegistry.NetworkEvaluatingResult, MetricsTags.CreateMetricsTags(new string[] {"Network", "Algorithm", "Metric", "TrainTestRate" },new string[] {nameof(MNISTPredictor), this.TrainingAlgo.ToString(), "MacroAccuracy", this.TrainTestDataRate.ToString()}),metrics.MacroAccuracy);
+            _metrics.Measure.Gauge.SetValue(MetricsRegistry.NetworkEvaluatingResult, MetricsTags.CreateMetricsTags(new string[] {"Network", "Algorithm", "Metric", "TrainTestRate" },new string[] {nameof(MNIST28Predictor), this.TrainingAlgo.ToString(), "MacroAccuracy", this.TrainTestDataRate.ToString()}),metrics.MacroAccuracy);
         }
 
         internal override void SaveNetwork(ITransformer trainedModel)
