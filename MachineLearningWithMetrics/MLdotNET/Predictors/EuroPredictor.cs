@@ -33,7 +33,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         {
             _metrics = MetricsInitializer.Metrics;
             trainTestDataRate = 0.2;
-            TrainingAlgo = RegressionTrainingAlgorithm.OnlineGradientDescent;          
+            TrainingAlgo = RegressionTrainingAlgorithm.FastTree;      
         }
         #endregion
 

@@ -32,10 +32,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes
 
         public enum RegressionTrainingAlgorithm
         {
-            [Description("Online Gradient Descent")]
-            OnlineGradientDescent,
-            [Description("Lbfgs Poisson Regression")]
-            LbfgsPoissonRegression,
             [Description("Fast Tree")]
             FastTree,
             [Description("Fast Tree Tweedie")]
@@ -85,11 +81,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes
         public static IEstimator<ITransformer> ApplyRegressionTrainingAlgorithm(MLContext mlContext, RegressionTrainingAlgorithm trainingAlgorithm)
         {
             switch (trainingAlgorithm)
-            {
-                case RegressionTrainingAlgorithm.OnlineGradientDescent:
-                    return mlContext.Regression.Trainers.OnlineGradientDescent(labelColumnName: "Label", featureColumnName: "Features");
-                case RegressionTrainingAlgorithm.LbfgsPoissonRegression:
-                    return mlContext.Regression.Trainers.LbfgsPoissonRegression(labelColumnName: "Label", featureColumnName: "Features");
+            {                
                 case RegressionTrainingAlgorithm.FastTree:
                     return mlContext.Regression.Trainers.FastTree(labelColumnName: "Label", featureColumnName: "Features");
                 case RegressionTrainingAlgorithm.FastTreeTweedie:
