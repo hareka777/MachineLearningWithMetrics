@@ -1,6 +1,5 @@
 ﻿using Microsoft.ML;
-using Microsoft.ML.Data;
-using Microsoft.ML.Transforms;
+using static Microsoft.ML.DataOperationsCatalog;
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors
 {
@@ -11,17 +10,29 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         internal IDataView testData = null;
         internal ITransformer trainedModel = null;
         internal MLContext mlContext = new MLContext();
+
+        internal double trainTestDataRate;
+
+        public double TrainTestDataRate
+        {
+            get { return trainTestDataRate; }
+            set { trainTestDataRate = value; }
+        }
         #endregion
 
-        #region Internal Methods
+        #region Methods
         internal abstract IDataView LoadData(MLContext context, string dataPath);
         internal abstract void EvaluateModel(ITransformer trainedModel);
         internal abstract void SaveNetwork(ITransformer trainedModel);
-        internal abstract void ProcessNetwork();
         internal abstract void TestSomePredictions();
-        internal IDataView ShuffleData(IDataView loadedData)
+        public abstract void ProcessNetwork();
+        public abstract void SetAlgorithm(object algo);
+
+        internal void AppendTrainingTestDataRate(IDataView data)
         {
-            return mlContext.Data.ShuffleRows(loadedData, seed: 37);
+            TrainTestData allData = mlContext.Data.TrainTestSplit(data, testFraction: trainTestDataRate);
+            trainingData = allData.TrainSet;
+            testData = allData.TestSet;
         }
         #endregion
     }

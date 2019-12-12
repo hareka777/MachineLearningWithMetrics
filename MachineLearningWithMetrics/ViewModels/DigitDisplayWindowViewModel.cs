@@ -13,9 +13,10 @@ namespace MachineLearningWithMetrics.ViewModels
         #endregion
 
         #region Constructor
-        public DigitDisplayWindowViewModel(float[] pixels)
+        public DigitDisplayWindowViewModel(float[] pixels, int predictedValue)
         {
             DrawDigits(pixels);
+            this.Title = $"Predicted value is: {predictedValue}";
         }
         #endregion
 
@@ -44,6 +45,8 @@ namespace MachineLearningWithMetrics.ViewModels
                     pixelCount++;
                 }
             }
+       
+            
 
             this.Content = this.PixelGrid;
 

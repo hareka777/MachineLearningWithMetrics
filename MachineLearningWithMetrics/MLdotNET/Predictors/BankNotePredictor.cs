@@ -2,14 +2,10 @@
 using MachineLearningWithMetrics.Metrics;
 using MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes;
 using Microsoft.ML;
-using Microsoft.ML.Calibrators;
 using Microsoft.ML.Data;
-using Microsoft.ML.Trainers.FastTree;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using static Microsoft.ML.DataOperationsCatalog;
+using static MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algorithms;
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors
 {
@@ -24,69 +20,58 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
 
         IMetricsRoot _metrics;
 
-        private double trainTestDataRate;
-
-        public double TrainTestDataRate
-        {
-            get { return trainTestDataRate; }
-            set { trainTestDataRate = value; }
-        }
-
+        public BinaryClassificationTrainingAlgorithm TrainingAlgorithm { get; set; }
 
         #endregion
 
-        #region Constructors
+        #region Constructor
         public BankNotePredictor()
         {
             _metrics = MetricsInitializer.Metrics;
             this.trainTestDataRate = 0.2;
-            ProcessNetwork();
+            TrainingAlgorithm = BinaryClassificationTrainingAlgorithm.LbfgsLogisticRegression;
         }
+
         #endregion
         #region Implementing abstract methods
         internal override void EvaluateModel(ITransformer trainedModel)
         {
             var predictions = trainedModel.Transform(testData);
             var metrics = mlContext.BinaryClassification.Evaluate(data: predictions, labelColumnName: "Label", scoreColumnName: "Score");
-            Console.WriteLine("Confusion matrix: " + metrics.ConfusionMatrix);
+            _metrics.Measure.Gauge.SetValue(MetricsRegistry.TrainTestRate, MetricsTags.CreateMetricsTags(new string[] { "Network" }, new string[] { nameof(BankNotePredictor) }), TrainTestDataRate);
+            _metrics.Measure.Gauge.SetValue(MetricsRegistry.NetworkEvaluatingResult, MetricsTags.CreateMetricsTags(new string[] { "Network", "Algorithm", "Metric", "TrainTestRate" }, new string[] { nameof(BankNotePredictor), this.TrainingAlgorithm.ToString(), "Accuracy", this.TrainTestDataRate.ToString() }), metrics.Accuracy);
+
         }
 
         internal override IDataView LoadData(MLContext context, string dataPath)
         {
             IDataView loadedData = null;
             //loading TrainingData
-            using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer))
+            string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgorithm.ToString(),
+                "Loading Data"
+            };
+            using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
             {
                 loadedData = context.Data.LoadFromTextFile<BankNotesInput>(path: dataPath,
                         hasHeader: false,
                         separatorChar: ','
                         );
             }
-            //var shuffledData = ShuffleData(loadedData);
+
             return loadedData;
         }
 
-        internal override void ProcessNetwork()
+        public override void ProcessNetwork()
         {
-            EstimatorChain<BinaryPredictionTransformer<CalibratedModelParametersBase<FastTreeBinaryModelParameters, PlattCalibrator>>> pipeline = null;
+
+            EstimatorChain<ITransformer> pipeline = null;
 
             try
-            {
-                Dictionary<string, string> tags = new Dictionary<string, string>();
-                tags.Add("ProcessName", "LoadingData");
-                tags.Add("TaskName", "MNIST28");
-
-                var metricsTags = new MetricTags(tags.Keys.ToArray(), tags.Values.ToArray());
-
-                using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, metricsTags))
-                {
-                    IDataView dataView = LoadData(mlContext, dataPath);
-                    AppendTrainingTestDataRate(dataView);
-                }
-
-                //Console.WriteLine(trainingData.Preview().RowView.ToString());
-
-                //MessageBox.Show("Data successfully loaded!");
+            {                
+                IDataView dataView = LoadData(mlContext, dataPath);
+                AppendTrainingTestDataRate(dataView);
             }
             catch (Exception e)
             {
@@ -102,7 +87,13 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             }
             try
             {
-                using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer))
+                string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgorithm.ToString(),
+                "Training the model"
+                };
+
+                using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
                 {
                     trainedModel = Train(pipeline);
                 }
@@ -113,7 +104,16 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             }
             try
             {
-                EvaluateModel(trainedModel);
+                string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgorithm.ToString(),
+                "Evaluating Network"
+                };
+
+                using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
+                {
+                    EvaluateModel(trainedModel);
+                }
             }
             catch (Exception e)
             {
@@ -121,7 +121,16 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             }
             try
             {
-                SaveNetwork(trainedModel);
+                string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgorithm.ToString(),
+                "Saving Network"
+                };
+
+                using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
+                {
+                    SaveNetwork(trainedModel);
+                }
             }
             catch (Exception e)
             {
@@ -153,22 +162,22 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             //testing some predictions
             var predEngine = mlContext.Model.CreatePredictionEngine<BankNotesInput, BankNotesOutput>(trainedModel);
 
-            var resultprediction0 = predEngine.Predict(SampleBankNotesDatacs.Authentic1);
+            var resultprediction0 = predEngine.Predict(SampleBankNotesData.Authentic1);
             ShowPrediction("Authentic", resultprediction0);
 
-            var resultprediction1 = predEngine.Predict(SampleBankNotesDatacs.Authentic2);
+            var resultprediction1 = predEngine.Predict(SampleBankNotesData.Authentic2);
             ShowPrediction("Authentic", resultprediction1);
 
-            var resultprediction2 = predEngine.Predict(SampleBankNotesDatacs.InAuthentic1);
+            var resultprediction2 = predEngine.Predict(SampleBankNotesData.InAuthentic1);
             ShowPrediction("InAuthentic", resultprediction2);
 
-            var resultprediction3 = predEngine.Predict(SampleBankNotesDatacs.InAuthentic2);
+            var resultprediction3 = predEngine.Predict(SampleBankNotesData.InAuthentic2);
             ShowPrediction("InAuthentic", resultprediction3);
         }
         #endregion
 
         #region Private Methods
-        private EstimatorChain<BinaryPredictionTransformer<CalibratedModelParametersBase<FastTreeBinaryModelParameters, PlattCalibrator>>> ConfigureNetwork()
+        private EstimatorChain<ITransformer> ConfigureNetwork()
         {
             var preparedData = mlContext.Transforms.Concatenate("Features", "Variance", "Skewness", "Kurtosis", "Entropy")
                 .Append(mlContext.Transforms.NormalizeMinMax(outputColumnName: nameof(BankNotesInput.Variance)))
@@ -176,23 +185,17 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                 .Append(mlContext.Transforms.NormalizeMinMax(outputColumnName: nameof(BankNotesInput.Kurtosis)))
                 .Append(mlContext.Transforms.NormalizeMinMax(outputColumnName: nameof(BankNotesInput.Entropy)));
 
-            var trainer = mlContext.BinaryClassification.Trainers.FastTree(labelColumnName: "Label", featureColumnName: "Features");
+            //Apply tranier algo
+            var trainer = ApplyBinaryTrainingAlgorithm(mlContext, TrainingAlgorithm);
 
             var pipeline = preparedData.Append(trainer);
 
             return pipeline;
         }
 
-        private ITransformer Train(EstimatorChain<BinaryPredictionTransformer<CalibratedModelParametersBase<FastTreeBinaryModelParameters, PlattCalibrator>>> pipeline)
+        private ITransformer Train(EstimatorChain< ITransformer> pipeline)
         {
             return pipeline.Fit(trainingData);
-        }
-
-        private void AppendTrainingTestDataRate(IDataView data)
-        {
-            TrainTestData allData = mlContext.Data.TrainTestSplit(data, testFraction: trainTestDataRate);
-            trainingData = allData.TrainSet;
-            testData = allData.TestSet;
         }
         
         private void ShowPrediction(string actualValue, BankNotesOutput prediction)
@@ -201,5 +204,14 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                 $"The predicted value is: {prediction.Prediction}");
         }
         #endregion
+        public override string ToString()
+        {
+            return "Bank note validity(Binary Classification)";
+        }
+
+        public override void SetAlgorithm(object algo)
+        {
+            this.TrainingAlgorithm = (BinaryClassificationTrainingAlgorithm)algo;
+        }
     }
 }

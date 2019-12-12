@@ -1,27 +1,30 @@
 ﻿using App.Metrics;
 using MachineLearningWithMetrics.Metrics;
 using MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate;
-using MachineLearningWithMetrics.MLdotNET.DataModel.MNIST;
 using Microsoft.ML;
-using Microsoft.ML.Data;
-using Microsoft.ML.Transforms;
-using System;
 using System.Windows;
+using static MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algorithms;
+using static Microsoft.ML.DataOperationsCatalog;
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors
 {
-    public class EuroPredictor
+    public class EuroPredictor : IPredictor
     {
-        #region Fields
+        #region Fields and Properties
         private static readonly string dataFolderPath = Paths.dataFolderPath + @"\Euro";
         private readonly string dataModelFolderPath = Paths.dataModelFolderPath;
         private readonly string networkPath = Paths.networkModelFolderPath + @"\Euro.zip";
 
+        private string dataPath = dataFolderPath + @"\Euro24hrData.csv";
 
-        private string trainingDataPath = dataFolderPath + @"\EuroRateTrainingShort.csv";
-        private string testDataPath = dataFolderPath + @"\EuroRateTest.csv";
+        public RegressionTrainingAlgorithm TrainingAlgo
+        {
+            get;
+            set;
+        }
 
         IMetricsRoot _metrics;
+
         #endregion
 
         #region Constructor
@@ -29,32 +32,21 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         public EuroPredictor()
         {
             _metrics = MetricsInitializer.Metrics;
-            ProcessNetwork();
+            trainTestDataRate = 0.2;
+            TrainingAlgo = RegressionTrainingAlgorithm.FastTree;      
         }
         #endregion
 
-        #region Private Methods
-        private void ProcessNetwork()
+        #region Methods
+        public override void ProcessNetwork()
         {
             MLContext mlContext = new MLContext();
-            var trainingDataView = LoadData(mlContext, trainingDataPath);
 
-            /*var minMaxEstimator1 = mlContext.Transforms.NormalizeMinMax("DiffPrev1");
-            var minMaxEstimator2 = mlContext.Transforms.NormalizeMinMax("DiffPrev2");
-            var minMaxEstimator3 = mlContext.Transforms.NormalizeMinMax("DiffPrev3");
-            var minMaxEstimator4 = mlContext.Transforms.NormalizeMinMax("DiffPrev4");
-            var minMaxEstimator5 = mlContext.Transforms.NormalizeMinMax("DiffPrev5");
-            var minMaxEstimator6 = mlContext.Transforms.NormalizeMinMax("DiffPrev6");
-            var minMaxEstimator7 = mlContext.Transforms.NormalizeMinMax("DiffPrev7");
-            var minMaxEstimator8 = mlContext.Transforms.NormalizeMinMax("DiffPrev8");
-            var minMaxEstimator9 = mlContext.Transforms.NormalizeMinMax("DiffPrev9");
-            var minMaxEstimator10 = mlContext.Transforms.NormalizeMinMax("DiffPrev10");*/
+            IDataView dataView = LoadData(mlContext, dataPath);
 
-            IDataView testDataView = LoadData(mlContext, testDataPath);
-
-            //Testing if the data is loaded correctly
-            Console.WriteLine(trainingDataView.Preview().RowView.ToString());
-            //Can help: taxifare
+            TrainTestData allData = mlContext.Data.TrainTestSplit(dataView, testFraction: trainTestDataRate);
+            trainingData = allData.TrainSet;
+            testData = allData.TestSet;
 
             var dataprocessPipeline = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: nameof(EuroDataModel.Value))
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev1)))
@@ -67,52 +59,59 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev8)))
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev9)))
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev10)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev11)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev12)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev13)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev14)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev15)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev16)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev17)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev18)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev19)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev20)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev21)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev22)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev23)))
+                            .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev24)))
                             .Append(mlContext.Transforms.Concatenate("Features", nameof(EuroDataModel.DiffPrev1), nameof(EuroDataModel.DiffPrev2), nameof(EuroDataModel.DiffPrev3), nameof(EuroDataModel.DiffPrev4), nameof(EuroDataModel.DiffPrev5),
-                nameof(EuroDataModel.DiffPrev6), nameof(EuroDataModel.DiffPrev7), nameof(EuroDataModel.DiffPrev8), nameof(EuroDataModel.DiffPrev9), nameof(EuroDataModel.DiffPrev10)));
+                nameof(EuroDataModel.DiffPrev6), nameof(EuroDataModel.DiffPrev7), nameof(EuroDataModel.DiffPrev8), nameof(EuroDataModel.DiffPrev9), nameof(EuroDataModel.DiffPrev10), nameof(EuroDataModel.DiffPrev11), nameof(EuroDataModel.DiffPrev12), 
+                nameof(EuroDataModel.DiffPrev13), nameof(EuroDataModel.DiffPrev14), nameof(EuroDataModel.DiffPrev15), nameof(EuroDataModel.DiffPrev16), nameof(EuroDataModel.DiffPrev17), nameof(EuroDataModel.DiffPrev18), nameof(EuroDataModel.DiffPrev19),
+                nameof(EuroDataModel.DiffPrev20), nameof(EuroDataModel.DiffPrev21), nameof(EuroDataModel.DiffPrev22), nameof(EuroDataModel.DiffPrev23), nameof(EuroDataModel.DiffPrev24)));
 
-            //var trainingPipeline = mlContext.Transforms.Concatenate("Features", "DiffPrev1", "DiffPrev2", "DiffPrev3", "DiffPrev4", "DiffPrev5", "DiffPrev6", "DiffPrev7", "DiffPrev8", "DiffPrev9", "DiffPrev10")
-            //   .Append(mlContext.Regression.Trainers.FastTreeTweedie(labelColumnName: "Value", featureColumnName: "Features"));/*
-            /*var trainer = mlContext.Regression.Trainers.FastTreeTweedie(labelColumnName: "Value", featureColumnName: "Features");
-
-            var trainingPipeline = mlContext.Transforms.Concatenate("Features", nameof(EuroDataModel.DiffPrev1), nameof(EuroDataModel.DiffPrev2), nameof(EuroDataModel.DiffPrev3), nameof(EuroDataModel.DiffPrev4), nameof(EuroDataModel.DiffPrev5),
-                nameof(EuroDataModel.DiffPrev6), nameof(EuroDataModel.DiffPrev7), nameof(EuroDataModel.DiffPrev8), nameof(EuroDataModel.DiffPrev9), nameof(EuroDataModel.DiffPrev10))
-                    .Append(mlContext.Transforms.CopyColumns(outputColumnName: "Value", inputColumnName: nameof(EuroDataModel.Value)))
-                    .Append(trainer);*/
-
-            var trainer = mlContext.Regression.Trainers.Sdca(labelColumnName: "Label", featureColumnName: "Features");
+            //Applying training algorithm
+            var trainer = ApplyRegressionTrainingAlgorithm(mlContext, TrainingAlgo);
             var trainingPipeline = dataprocessPipeline.Append(trainer);
 
-            var trainedModel = trainingPipeline.Fit(trainingDataView);
+            //Training the model
+            string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgo.ToString(),
+                "Training the model"
+            };
+            using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
+            {
+                trainedModel = trainingPipeline.Fit(trainingData);
+            }
 
+            EvaluateModel(trainedModel);
 
+            SaveNetwork(trainedModel);
 
-            var predictions = trainedModel.Transform(testDataView);
-            var metrics = mlContext.Regression.Evaluate(data: predictions, labelColumnName: "Label", scoreColumnName: "Score");
-            //var metrics = context.MulticlassClassification.Evaluate(data: predictions, labelColumnName: "Number", scoreColumnName: "Score");
-            Console.WriteLine("Confusion matrix: " + metrics.RSquared.ToString());
-
-            mlContext.Model.Save(trainedModel, trainingDataView.Schema, networkPath);
-
-            var loadedtrainedModel = mlContext.Model.Load(networkPath, out var modelInputSchema);
+            TestSomePredictions();      
+        }
         
-
-        // Create prediction engine related to the loaded trained model
-        var predEngine = mlContext.Model.CreatePredictionEngine<EuroDataModel, EuroDataModelOutput>(loadedtrainedModel);
-
-
-        //
-        var resultprediction1 = predEngine.Predict(SampleEuroData.Euro1);
-            MessageBox.Show($"Value was: 326.0800, the predicted value is:{resultprediction1.Score}");
-
-
-    }
-        #endregion
-
-        public IDataView LoadData(MLContext context, string dataPath)
+        internal override IDataView LoadData(MLContext context, string dataPath)
         {
+
             IDataView loadedData = null;
             //loading TrainingData
-            using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer))
+            string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgo.ToString(),
+                "Loading Data"
+            };
+
+            using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
             {
                 loadedData = context.Data.LoadFromTextFile<EuroDataModel>(path: dataPath,
                        hasHeader: true,
@@ -124,22 +123,61 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
 
         }
 
-        public EstimatorChain<KeyToValueMappingTransformer> ConfigureNetwork(MLContext context)
+        public override string ToString()
         {
-            // STEP 2: Common data process configuration with pipeline data transformations
-            // Use in-memory cache for small/medium datasets to lower training time. Do NOT use it (remove .AppendCacheCheckpoint()) when handling very large datasets.
-            var dataProcessPipeline = context.Transforms.Conversion.MapValueToKey("Label", "Number", keyOrdinality: ValueToKeyMappingEstimator.KeyOrdinality.ByValue)
-                .Append(context.Transforms.Concatenate("Features", nameof(InputData.PixelValues))
-                .AppendCacheCheckpoint(context));
-
-            // STEP 3: Set the training algorithm, then create and config the modelBuilder
-            var trainer = context.MulticlassClassification.Trainers.SdcaMaximumEntropy(labelColumnName: "Label", featureColumnName: "Features");
-            var trainingPipeline = dataProcessPipeline
-                .Append(trainer)
-                .Append(context.Transforms.Conversion.MapKeyToValue("Number", "Label"));
-
-            return trainingPipeline;
+            return "Euro price(Regression)";
         }
+
+        internal override void EvaluateModel(ITransformer trainedModel)
+        {
+            string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgo.ToString(),
+                "Evaluating Network"
+            };
+            IDataView predictions;
+            using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
+            {
+                predictions = trainedModel.Transform(testData);
+            }
+            var metrics = mlContext.Regression.Evaluate(data: predictions, labelColumnName: "Label", scoreColumnName: "Score");
+
+            _metrics.Measure.Gauge.SetValue(MetricsRegistry.TrainTestRate, MetricsTags.CreateMetricsTags(new string[] { "Network" }, new string[] { nameof(EuroPredictor) }), this.TrainTestDataRate);
+            _metrics.Measure.Gauge.SetValue(MetricsRegistry.NetworkEvaluatingResult, MetricsTags.CreateMetricsTags(new string[] { "Network", "Algorithm", "Metric", "TrainTestRate" }, new string[] { nameof(EuroPredictor), this.TrainingAlgo.ToString(), "MeanAbsoluteError", this.TrainTestDataRate.ToString() }), metrics.MeanAbsoluteError);
+
+        }
+
+        internal override void SaveNetwork(ITransformer trainedModel)
+        {
+            string[] tags = new string[]{
+                this.ToString(),
+                this.TrainingAlgo.ToString(),
+                "Saving Network"
+            };
+            using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
+            {
+                mlContext.Model.Save(trainedModel, trainingData.Schema, networkPath);
+            }
+        }
+
+        internal override void TestSomePredictions()
+        {
+            var loadedtrainedModel = mlContext.Model.Load(networkPath, out var modelInputSchema);
+            // Create prediction engine related to the loaded trained model
+            var predEngine = mlContext.Model.CreatePredictionEngine<EuroDataModel, EuroDataModelOutput>(loadedtrainedModel);
+            //
+            var resultprediction1 = predEngine.Predict(SampleEuroData.Euro1);
+            MessageBox.Show($"Value was: 310.085, the predicted value is:{resultprediction1.Score}");
+
+            var resultprediction2 = predEngine.Predict(SampleEuroData.Euro2);
+            MessageBox.Show($"Value was: 323.923, the predicted value is:{resultprediction2.Score}");
+        }
+
+        public override void SetAlgorithm(object algo)
+        {
+            this.TrainingAlgo = (RegressionTrainingAlgorithm)algo;
+        }
+        #endregion
     }
 }
 

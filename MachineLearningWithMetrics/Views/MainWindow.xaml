@@ -1,23 +1,132 @@
 ﻿<Window x:Class="MachineLearningWithMetrics.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MachineLearningWithMetrics"
+        xmlns:converters="clr-namespace:MachineLearningWithMetrics.ViewModels.Converters"
         mc:Ignorable="d"
-        Title="Machine learning with metrics" Height="450" Width="800">
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <Image Source="../Images/AI2019_WhatIs_Header.jpg" MaxHeight="200"></Image>
-            <Button Command="{Binding StartInfluxCommand}" MaxHeight="20">Start InfluxDB</Button>
-            <Button Command="{Binding StartGrafanaCommand}" MaxHeight="20">Start Grafana</Button>
-            <TextBox TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=MLdotNETPaths, Mode=TwoWay}"></TextBox>
-            <Button Command="{Binding StartMLdotNETCommand}" MaxHeight="20">Heart Disease</Button>
-            <Button Command="{Binding StartMNISTCommand}" MaxHeight="20">MNIST</Button>
-            <Button Command="{Binding StartMNIST28Command}" MaxHeight="20">MNIST28</Button>
-            <Button Command="{Binding StartEuroCommand}" MaxHeight="20">Euro</Button>
-            <Button Command="{Binding StartWineQualityCommand}" MaxHeight="20">Wine Quality</Button>
-            <Button Command="{Binding StartBankNotesCommand}" MaxHeight="20">Bank Notes</Button>
-        </StackPanel>        
-    </Grid>
+        Title="Machine learning with metrics" SizeToContent="WidthAndHeight">
+
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid>            
+            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+
+                <StackPanel Orientation="Vertical" Background="#001543">
+                    <Menu Background="#001543" Foreground="White">
+                        <MenuItem Header="Metrics">
+                            <MenuItem Header="Start InfluxDB" Command="{Binding StartInfluxCommand}" Background="#001543"/>
+                            <MenuItem Header="Open Grafana" Command="{Binding StartGrafanaCommand}" Background="#001543"/>
+                        </MenuItem>
+                    </Menu>
+                    <Image Source="../Images/AI2019_WhatIs_Header.jpg" MaxHeight="150" HorizontalAlignment="Left"></Image>
+                </StackPanel>
+
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,5" >
+                    <Label Width="150">Network: </Label>
+                    <ComboBox x:Name="problem" MinWidth="150" ItemsSource="{Binding Path=Problems, Mode=TwoWay}" SelectedValue="{Binding Path=SelectedProblem, Mode=TwoWay}"></ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5" Background="LightGray">
+                    <Label Width="150">Algorithm Catalog:</Label>
+                    <StackPanel Orientation="Vertical" Margin="0,2.5,0,2.5" Background="LightGray">
+                        <TextBlock Width="150" Text="Binary classification:" IsEnabled="False" Margin="2,2,2,2">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=problem, Path=SelectedIndex}" Value="0">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <ComboBox x:Name="algorithmSelectorBinary" ItemsSource="{Binding Path=BinaryAlgorithms, Converter={converters:EnumConverter}, Mode=OneTime}"
+          SelectedValuePath="Value"
+          DisplayMemberPath="Description"
+          SelectedValue="{Binding Path=SelectedBinaryAlgorithm}"
+          Visibility="Visible">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=problem, Path=SelectedIndex}" Value="0">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,2.5,0,2.5" Background="LightGray">
+                        <TextBlock Width="150" Text="Multi classification:" IsEnabled="False" Margin="2,2,2,2">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=problem, Path=SelectedIndex}" Value="1">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <ComboBox x:Name="algorithmSelectorMulti" ItemsSource="{Binding Path=MultiAlgorithms, Converter={converters:EnumConverter}, Mode=OneTime}"
+          SelectedValuePath="Value"
+          DisplayMemberPath="Description"
+          SelectedValue="{Binding Path=SelectedMultiAlgorithm}" Visibility="Visible">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=problem, Path=SelectedIndex}" Value="1">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,2.5,0,2.5" Background="LightGray">
+                        <TextBlock Width="150" Text="Regression:" IsEnabled="False" Margin="2,2,2,2">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=problem, Path=SelectedIndex}" Value="2">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <ComboBox x:Name="algorithmSelectorRegression" ItemsSource="{Binding Path=RegressionAlgorithms, Converter={converters:EnumConverter}, Mode=OneTime}"
+            SelectedValuePath="Value"
+            DisplayMemberPath="Description"
+            SelectedValue="{Binding Path=SelectedRegressionAlgorithm}" Visibility="Visible">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=problem, Path=SelectedIndex}" Value="2">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                    </StackPanel>
+
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <Label Width="150">Test Data Rate: </Label>
+                    <ComboBox MinWidth="150" ItemsSource="{Binding Path=TrainingTestRate, Mode=TwoWay}" SelectedValue="{Binding Path=SelectedTrainingTestRate}"></ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,10,0,10">
+                    <Button Command="{Binding StartNetworkCommand}" MaxHeight="20" HorizontalAlignment="Stretch" Background="AliceBlue">Start</Button>
+                </StackPanel>
+            </StackPanel>
+            
+        </Grid>        
+    </ScrollViewer>
 </Window>

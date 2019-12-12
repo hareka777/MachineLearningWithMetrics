@@ -13,6 +13,7 @@ namespace MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes
         // name "Probability" is the column name we want.
         [ColumnName("Probability")]
         public float Probability;
+
         [ColumnName("Score")]
         public float Score;
     }
