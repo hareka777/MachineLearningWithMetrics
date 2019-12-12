@@ -3,8 +3,14 @@ using System.ComponentModel;
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes
 {
+    /*
+     * Class to handle different algorithms
+     */
     public static class Algorithms
     {
+        /*
+         * Enums to group algorithms
+         */
         #region Enums
         public enum MultiClassificationTrainingAlgorithm
         {
@@ -42,6 +48,9 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes
         #endregion
 
         #region Public Methods
+        /*
+         * Setting Multi Classification Training Algorithms
+         */
         public static IEstimator<ITransformer> ApplyMultiTrainingAlgorithm(MLContext mlContext, MultiClassificationTrainingAlgorithm trainingAlgorithm)
         {
             switch (trainingAlgorithm)
@@ -59,7 +68,9 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes
 
             }
         }
-
+        /*
+         * Setting Binary Classification Training Algorithms
+         */
         public static IEstimator<ITransformer> ApplyBinaryTrainingAlgorithm(MLContext mlContext, BinaryClassificationTrainingAlgorithm trainingAlgorithm)
         {
             switch (trainingAlgorithm)
@@ -77,6 +88,10 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes
 
             }
         }
+
+        /*
+         * Setting Regression Training Algorithms
+         */
 
         public static IEstimator<ITransformer> ApplyRegressionTrainingAlgorithm(MLContext mlContext, RegressionTrainingAlgorithm trainingAlgorithm)
         {

@@ -13,9 +13,14 @@ using System.Windows.Input;
 
 namespace MachineLearningWithMetrics.ViewModels
 {
+    /*
+     * View Model for the XAML frontend
+     */
     public class MainPageViewModel : INotifyPropertyChanged
     {
-
+        /*
+         * Events and properties for data bindings and selected values
+         */
         #region Events, Fields and Properties
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -174,14 +179,14 @@ namespace MachineLearningWithMetrics.ViewModels
         }
         #endregion
 
+        /*
+         * Command for networks and metrics
+         */
         #region Commands
         private ICommand _startInfluxCommand;
-        private ICommand _startMLdotNETCommand;
         private ICommand _startGrafanaCommand;
-        private ICommand _startMNISTCommand;
         private ICommand _startMNIST28Command;
         private ICommand _startEuroCommand;
-        private ICommand _startWineQualityCommand;
         private ICommand _startBankNotesCommand;
         private ICommand _startNetworkCommand;
 
@@ -274,6 +279,10 @@ namespace MachineLearningWithMetrics.ViewModels
             }
         }
 
+        /*
+         * Setting selected algorithm and test data rate.
+         * After processing the network.
+         */
         public void StartNetwork()
         {
             try
@@ -300,21 +309,10 @@ namespace MachineLearningWithMetrics.ViewModels
         }
         #endregion
 
-        #region Properties
-        private string _mLdotNETPaths = string.Empty;       
-
-        public string MLdotNETPaths
-        {
-            get { return _mLdotNETPaths; }
-            set {
-                _mLdotNETPaths = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MLdotNETPaths)));
-            }
-        }
-
-        #endregion
-
         #region Private methods
+        /*
+         * Instanciating the network classes
+         */
         private void SetProblems()
         {
             this.problems.Add(new BankNotePredictor());

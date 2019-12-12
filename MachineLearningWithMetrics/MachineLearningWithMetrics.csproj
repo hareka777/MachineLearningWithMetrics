@@ -200,7 +200,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="Grafana\Machine learning metrics-1576193186442.json" />
     <None Include="InfluxDB\influxdb.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -214,7 +214,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Grafana\" />
     <Folder Include="MLdotNET\Data\BankNotes\" />
     <Folder Include="MLdotNET\Data\MNIST\" />
     <Folder Include="MLdotNET\Networks\" />

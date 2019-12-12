@@ -1,5 +1,8 @@
 ﻿namespace MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes
 {
+    /*
+     * Sample data for testing some network predictions
+     */
     public class SampleBankNotesData
     {
         #region Private Fields

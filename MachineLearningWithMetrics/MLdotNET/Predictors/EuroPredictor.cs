@@ -8,9 +8,13 @@ using static Microsoft.ML.DataOperationsCatalog;
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors
 {
+    /*
+     * Network builder and handler class for regression
+     */
     public class EuroPredictor : IPredictor
     {
         #region Fields and Properties
+        //Paths for data and networks
         private static readonly string dataFolderPath = Paths.dataFolderPath + @"\Euro";
         private readonly string dataModelFolderPath = Paths.dataModelFolderPath;
         private readonly string networkPath = Paths.networkModelFolderPath + @"\Euro.zip";
@@ -49,6 +53,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             testData = allData.TestSet;
 
             var dataprocessPipeline = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: nameof(EuroDataModel.Value))
+                            //Normalizing data
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev1)))
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev2)))
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev3)))
@@ -73,6 +78,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev22)))
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev23)))
                             .Append(mlContext.Transforms.NormalizeMeanVariance(outputColumnName: nameof(EuroDataModel.DiffPrev24)))
+                            //Concatenating input features
                             .Append(mlContext.Transforms.Concatenate("Features", nameof(EuroDataModel.DiffPrev1), nameof(EuroDataModel.DiffPrev2), nameof(EuroDataModel.DiffPrev3), nameof(EuroDataModel.DiffPrev4), nameof(EuroDataModel.DiffPrev5),
                 nameof(EuroDataModel.DiffPrev6), nameof(EuroDataModel.DiffPrev7), nameof(EuroDataModel.DiffPrev8), nameof(EuroDataModel.DiffPrev9), nameof(EuroDataModel.DiffPrev10), nameof(EuroDataModel.DiffPrev11), nameof(EuroDataModel.DiffPrev12), 
                 nameof(EuroDataModel.DiffPrev13), nameof(EuroDataModel.DiffPrev14), nameof(EuroDataModel.DiffPrev15), nameof(EuroDataModel.DiffPrev16), nameof(EuroDataModel.DiffPrev17), nameof(EuroDataModel.DiffPrev18), nameof(EuroDataModel.DiffPrev19),
@@ -166,7 +172,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             // Create prediction engine related to the loaded trained model
             var predEngine = mlContext.Model.CreatePredictionEngine<EuroDataModel, EuroDataModelOutput>(loadedtrainedModel);
             //
-            var resultprediction1 = predEngine.Predict(SampleEuroData.Euro1);
+            var resultprediction1 = predEngine.Predict(MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate.SampleEuroData.Euro1);
             MessageBox.Show($"Value was: 310.085, the predicted value is:{resultprediction1.Score}");
 
             var resultprediction2 = predEngine.Predict(SampleEuroData.Euro2);

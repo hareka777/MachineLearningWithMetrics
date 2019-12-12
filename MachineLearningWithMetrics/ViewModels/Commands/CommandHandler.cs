@@ -3,6 +3,11 @@ using System.Windows.Input;
 
 namespace MachineLearningWithMetrics.ViewModels.Commands
 {
+    //Source: https://stackoverflow.com/questions/12422945/how-to-bind-wpf-button-to-a-command-in-viewmodelbase
+
+    /*
+     * Command handler for XAML bindings
+     */
     public class CommandHandler : ICommand
     {
         private Action _action;

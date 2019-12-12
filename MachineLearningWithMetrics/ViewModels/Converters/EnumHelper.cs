@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MachineLearningWithMetrics.ViewModels.Converters
 {
+    //source: https://stackoverflow.com/questions/20290842/converter-to-show-description-of-an-enum-and-convert-back-to-enum-value-on-sele
+    //https://stackoverflow.com/questions/6145888/how-to-bind-an-enum-to-a-combobox-control-in-wpf
+
+    /*
+     * Helper class for enum converter
+     */
     public static class EnumHelper
     {
         public static string Description(this Enum value)

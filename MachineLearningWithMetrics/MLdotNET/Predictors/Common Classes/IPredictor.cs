@@ -3,6 +3,9 @@ using static Microsoft.ML.DataOperationsCatalog;
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors
 {
+    /*
+     * Common interface for predictor classes and for network builder classes
+     */
     public abstract class IPredictor
     {
         #region Fields
@@ -20,6 +23,9 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         }
         #endregion
 
+        /*
+         * Abstract classes for network processes and tasks
+         */
         #region Methods
         internal abstract IDataView LoadData(MLContext context, string dataPath);
         internal abstract void EvaluateModel(ITransformer trainedModel);

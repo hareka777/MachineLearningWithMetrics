@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MachineLearningWithMetrics.MLdotNET.DataModel.MNIST28
 {
+    /*
+     * Sample data for testing network predictions
+     */
     public class Mnist28SampleData
     {
         #region Private Fields
