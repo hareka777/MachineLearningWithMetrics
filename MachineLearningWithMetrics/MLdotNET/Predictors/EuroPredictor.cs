@@ -14,9 +14,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         private static readonly string dataFolderPath = Paths.dataFolderPath + @"\Euro";
         private readonly string dataModelFolderPath = Paths.dataModelFolderPath;
         private readonly string networkPath = Paths.networkModelFolderPath + @"\Euro.zip";
-        private IDataView trainingData;
-        private IDataView testData;
-        private ITransformer trainedModel;
 
         private string dataPath = dataFolderPath + @"\Euro24hrData.csv";
 
@@ -40,7 +37,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         }
         #endregion
 
-        #region Private Methods
+        #region Methods
         public override void ProcessNetwork()
         {
             MLContext mlContext = new MLContext();
@@ -96,16 +93,13 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                 trainedModel = trainingPipeline.Fit(trainingData);
             }
 
-
-
             EvaluateModel(trainedModel);
 
             SaveNetwork(trainedModel);
 
             TestSomePredictions();      
         }
-        #endregion
-
+        
         internal override IDataView LoadData(MLContext context, string dataPath)
         {
 
@@ -183,6 +177,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         {
             this.TrainingAlgo = (RegressionTrainingAlgorithm)algo;
         }
+        #endregion
     }
 }
 

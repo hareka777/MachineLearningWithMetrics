@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MachineLearningWithMetrics.App">
+    <Position X="11.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MachineLearningWithMetrics.Metrics.MetricsInitializer">
+    <Position X="13.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAABAAAAAAAEAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metrics\MetricsInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.Metrics.MetricsRegistry">
+    <Position X="15" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAgAAAAAAAAABAgAAEAAA=</HashCode>
+      <FileName>Metrics\MetricsRegistry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.Metrics.MetricsTags">
+    <Position X="16.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metrics\MetricsTags.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes.BankNotesInput" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAIACAAIAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\BankNotes\BankNotesInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes.BankNotesOutput">
+    <Position X="15" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAgAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\BankNotes\BankNotesOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes.SampleBankNotesData" Collapsed="true">
+    <Position X="11.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABgAAAAYAAAAAAAAIAAAACAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\BankNotes\SampleBankNotesDatacs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate.EuroDataModel">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAD8MwAAAAAgAAAAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\Eurorate\EuroDataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate.EuroDataModelOutput">
+    <Position X="16.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAgAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\Eurorate\EuroDataModelOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate.SampleEuroData">
+    <Position X="11.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\Eurorate\SampleEuroData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.MNIST28.MNIST28DataModel" Collapsed="true">
+    <Position X="14" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\MNIST28\MNIST28DataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.MNIST28.MNIST28DataModelOutput">
+    <Position X="11.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\DataModel\MNIST28\MNIST28DataModelOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.DataModel.MNIST28.Mnist28SampleData">
+    <Position X="13.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAgAAAAAAQAAQAkAAFAIAAAQAFDAAABQwAAAgAAIA=</HashCode>
+      <FileName>MLdotNET\DataModel\MNIST28\Mnist28SampleData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.Paths">
+    <Position X="15" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAACQAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\Paths.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.Predictors.BankNotePredictor" Collapsed="true">
+    <Position X="5.5" Y="5.75" Width="2" />
+    <InheritanceLine Type="MachineLearningWithMetrics.MLdotNET.Predictors.IPredictor" ManuallyRouted="true">
+      <Path>
+        <Point X="6.375" Y="5.18" />
+        <Point X="6.375" Y="5.75" />
+        <Point X="6.5" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>EAIgAAgAAAASAAAEAQAAQEEAAgAAAEAAAEAAIAAAAAA=</HashCode>
+      <FileName>MLdotNET\Predictors\BankNotePredictor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.Predictors.IPredictor">
+    <Position X="5" Y="1.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAoEAAAQAAAEAAIAQAAAAAAAAAAAAAAAIAgBCAE=</HashCode>
+      <FileName>MLdotNET\Predictors\Common Classes\IPredictor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.Predictors.EuroPredictor" Collapsed="true">
+    <Position X="8.25" Y="5.75" Width="1.5" />
+    <InheritanceLine Type="MachineLearningWithMetrics.MLdotNET.Predictors.IPredictor" ManuallyRouted="true">
+      <Path>
+        <Point X="6.375" Y="5.18" />
+        <Point X="6.375" Y="5.605" />
+        <Point X="9" Y="5.605" />
+        <Point X="9" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>EAAAAAgAAAASAAAEAQAAQEEAAAAAAEAAAAIAIAAAAAA=</HashCode>
+      <FileName>MLdotNET\Predictors\EuroPredictor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.Predictors.MNIST28Predictor" Collapsed="true">
+    <Position X="2.25" Y="5.75" Width="2.25" />
+    <InheritanceLine Type="MachineLearningWithMetrics.MLdotNET.Predictors.IPredictor" ManuallyRouted="true">
+      <Path>
+        <Point X="6.375" Y="5.18" />
+        <Point X="6.375" Y="5.598" />
+        <Point X="3.375" Y="5.598" />
+        <Point X="3.375" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>EAAgAAgAAAASAAAEAAAAQEEAAAAAQEAAAEIAIAAAAAA=</HashCode>
+      <FileName>MLdotNET\Predictors\MNIST28Predictor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algorithms" Collapsed="true">
+    <Position X="11.5" Y="6.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algorithms.MultiClassificationTrainingAlgorithm" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>MLdotNET\Predictors\Common Classes\Algorithms.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algorithms.BinaryClassificationTrainingAlgorithm" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>MLdotNET\Predictors\Common Classes\Algorithms.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algorithms.RegressionTrainingAlgorithm" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>MLdotNET\Predictors\Common Classes\Algorithms.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAQIAAAAAAAAAAAA=</HashCode>
+      <FileName>MLdotNET\Predictors\Common Classes\Algorithms.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.Properties.Resources">
+    <Position X="16.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.Properties.Settings">
+    <Position X="13.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.ViewModels.Commands.CommandHandler" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEACAAQAAEAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>ViewModels\Commands\CommandHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MachineLearningWithMetrics.ViewModels.Converters.EnumConverter" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Converters\EnumConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MachineLearningWithMetrics.ViewModels.Converters.EnumHelper">
+    <Position X="13.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Converters\EnumHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.ViewModels.Converters.ValueDescription">
+    <Position X="15" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>ViewModels\Converters\ValueDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.ViewModels.DigitDisplayWindowViewModel" Collapsed="true">
+    <Position X="11.75" Y="2.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\DigitDisplayWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MachineLearningWithMetrics.ViewModels.MainPageViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKAAIQCgBgCEoAAUECC1EAAgAAMAgAQFRYQRQEWEEU=</HashCode>
+      <FileName>ViewModels\MainPageViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

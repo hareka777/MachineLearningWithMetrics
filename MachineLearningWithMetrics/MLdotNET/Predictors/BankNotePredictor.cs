@@ -24,7 +24,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
 
         #endregion
 
-        #region Constructors
+        #region Constructor
         public BankNotePredictor()
         {
             _metrics = MetricsInitializer.Metrics;

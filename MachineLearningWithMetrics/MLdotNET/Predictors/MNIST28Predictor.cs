@@ -30,7 +30,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         IMetricsRoot _metrics;
         #endregion
 
-        #region Constructors
+        #region Constructor
         public MNIST28Predictor()
         {
             this._metrics = MetricsInitializer.Metrics;
@@ -39,7 +39,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         }
         #endregion
 
-        #region Implementing Abstract Methods
+        #region Methods
 
         public override void ProcessNetwork()
         {
@@ -279,7 +279,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         {
             return pipeline.Fit(trainingData);
         }
-        #endregion
+        
 
         public override string ToString()
         {
@@ -296,5 +296,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             ITransformer trainedModel =  pipeline.Fit(trainingData);
             return trainedModel;
         */
+        #endregion
     }
 }

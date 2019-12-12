@@ -2,7 +2,6 @@
 using App.Metrics.Scheduling;
 using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,8 +32,6 @@ namespace MachineLearningWithMetrics.Metrics
                 .Configuration.Configure(options =>
                 {
                     options.AddServerTag();
-                    //giving the current class name
-                    options.GlobalTags.Add("Class", MethodBase.GetCurrentMethod().DeclaringType.Name);
                 })
                .Build();
             
@@ -61,8 +58,7 @@ namespace MachineLearningWithMetrics.Metrics
                 Metrics.Measure.Gauge.SetValue(MetricsRegistry.CPUUsage, cpuUsage);
                 Metrics.Measure.Gauge.SetValue(MetricsRegistry.MemoryUsage, Process.GetCurrentProcess().WorkingSet64 / 1024.0 / 1024.0);
                 Thread.Sleep(3000);
-            }          
-
+            }
             
         }
     }
