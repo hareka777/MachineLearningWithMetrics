@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate
+﻿namespace MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate
 {
+    /*
+     * Sample data for testing some network predictions
+     */
     public class SampleEuroData
     {
         public static readonly EuroDataModel Euro1 = new EuroDataModel()

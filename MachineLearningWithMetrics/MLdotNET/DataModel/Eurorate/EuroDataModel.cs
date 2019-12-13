@@ -1,22 +1,13 @@
 ﻿using Microsoft.ML.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MachineLearningWithMetrics.MLdotNET.DataModel.Eurorate
 {
+    /*
+     * Data Source: https://www.histdata.com/download-free-forex-historical-data/?/metatrader/1-minute-bar-quotes/EURHUF
+     * Data model class for regression
+     */
     public class EuroDataModel
     {
-
-        /*[ColumnName("Value")]
-        [LoadColumn(0)]
-        public float Value;
-
-        [ColumnName("PreviousDifferences")]
-        [VectorType(64)]
-        public float[] PreviousDifferences;*/
 
         [ColumnName("DiffPrev1")]
         [LoadColumn(0)]

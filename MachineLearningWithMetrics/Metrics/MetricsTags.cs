@@ -2,6 +2,9 @@
 
 namespace MachineLearningWithMetrics.Metrics
 {
+    /*
+     * Static class to handle and creating common and individual metrics tags
+     */
     public static class MetricsTags
     {
         private static string[] keys = new string[]

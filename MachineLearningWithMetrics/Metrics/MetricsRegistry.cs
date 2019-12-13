@@ -5,8 +5,13 @@ using App.Metrics.Timer;
 
 namespace MachineLearningWithMetrics.Metrics
 {
+    /*
+     * Static class to handle different metrics objects
+     * These objects can be inkoved to be able to log metrics     * 
+     */
     public static class MetricsRegistry
     {
+
         public static TimerOptions Timer => new TimerOptions
         {
             Name = "Timer",

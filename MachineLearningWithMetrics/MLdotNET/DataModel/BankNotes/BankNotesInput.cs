@@ -2,6 +2,10 @@
 
 namespace MachineLearningWithMetrics.MLdotNET.DataModel.BankNotes
 {
+    /*
+     * Data Source: https://machinelearningmastery.com/standard-machine-learning-datasets/
+     * Data model class for binary classification
+     */
     public class BankNotesInput
     {
         //Variance of image

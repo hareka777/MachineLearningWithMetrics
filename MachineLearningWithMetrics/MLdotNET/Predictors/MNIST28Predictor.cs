@@ -13,9 +13,13 @@ using static Microsoft.ML.DataOperationsCatalog;
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors
 {
+    /*
+     * Network builder and handler class for multi classification
+     */
     public class MNIST28Predictor : IPredictor
     {
         #region Fields and Properties
+        //Paths for networks and data
         private static readonly string dataFolderPath = Paths.dataFolderPath + @"\MNIST";
         private readonly string dataModelFolderPath = Paths.dataModelFolderPath;
         private readonly string networkPath = Paths.networkModelFolderPath + @"\MNIST28.zip";
@@ -62,9 +66,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                 TrainTestData allData = mlContext.Data.TrainTestSplit(loadedData, testFraction: trainTestDataRate);
                 trainingData = allData.TrainSet;
                 testData = allData.TestSet;
-                //Console.WriteLine(csvData.Preview().RowView.ToString());
-
-                //MessageBox.Show("Data successfully loaded!");
             }
             catch (Exception e)
             {
@@ -171,7 +172,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
 
         internal override void TestSomePredictions()
         {
-            //out var: 
             ITransformer trainedModel;
 
             using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer))
@@ -179,48 +179,48 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                 trainedModel = mlContext.Model.Load(networkPath, out var modelInputSchema);
             }
 
-            // Create prediction engine related to the loaded trained model
+            // Testing some network predictions
             var predEngine = mlContext.Model.CreatePredictionEngine<MNIST28DataModel, MNIST28DataModelOutput>(trainedModel);
 
             var resultprediction0 = predEngine.Predict(Mnist28SampleData.Zero);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel = new DigitDisplayWindowViewModel(Mnist28SampleData.Zero.Pixels, CountPredictedDigit(resultprediction0.Score));
-            digitDisplayWindowViewModel.Show();
+            digitDisplayWindowViewModel.ShowDialog();
 
             var resultprediction1 = predEngine.Predict(Mnist28SampleData.One);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel1 = new DigitDisplayWindowViewModel(Mnist28SampleData.One.Pixels, CountPredictedDigit(resultprediction1.Score));
-            digitDisplayWindowViewModel1.Show();
+            digitDisplayWindowViewModel1.ShowDialog();
 
             var resultprediction2 = predEngine.Predict(Mnist28SampleData.Two);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel2 = new DigitDisplayWindowViewModel(Mnist28SampleData.Two.Pixels, CountPredictedDigit(resultprediction2.Score));
-            digitDisplayWindowViewModel2.Show();
+            digitDisplayWindowViewModel2.ShowDialog();
 
             var resultprediction3 = predEngine.Predict(Mnist28SampleData.Three);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel3 = new DigitDisplayWindowViewModel(Mnist28SampleData.Three.Pixels, CountPredictedDigit(resultprediction3.Score));
-            digitDisplayWindowViewModel3.Show();
+            digitDisplayWindowViewModel3.ShowDialog();
 
             var resultprediction4 = predEngine.Predict(Mnist28SampleData.Four);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel4 = new DigitDisplayWindowViewModel(Mnist28SampleData.Four.Pixels, CountPredictedDigit(resultprediction4.Score));
-            digitDisplayWindowViewModel4.Show();
+            digitDisplayWindowViewModel4.ShowDialog();
 
             var resultprediction5 = predEngine.Predict(Mnist28SampleData.Five);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel5 = new DigitDisplayWindowViewModel(Mnist28SampleData.Five.Pixels, CountPredictedDigit(resultprediction5.Score));
-            digitDisplayWindowViewModel5.Show();
+            digitDisplayWindowViewModel5.ShowDialog();
 
             var resultprediction6 = predEngine.Predict(Mnist28SampleData.Six);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel6 = new DigitDisplayWindowViewModel(Mnist28SampleData.Six.Pixels, CountPredictedDigit(resultprediction6.Score));
-            digitDisplayWindowViewModel6.Show();
+            digitDisplayWindowViewModel6.ShowDialog();
 
             var resultprediction7 = predEngine.Predict(Mnist28SampleData.Seven);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel7 = new DigitDisplayWindowViewModel(Mnist28SampleData.Seven.Pixels, CountPredictedDigit(resultprediction7.Score));
-            digitDisplayWindowViewModel7.Show();
+            digitDisplayWindowViewModel7.ShowDialog();
 
             var resultprediction8 = predEngine.Predict(Mnist28SampleData.Eight);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel8 = new DigitDisplayWindowViewModel(Mnist28SampleData.Eight.Pixels, CountPredictedDigit(resultprediction8.Score));
-            digitDisplayWindowViewModel8.Show();
+            digitDisplayWindowViewModel8.ShowDialog();
 
             var resultprediction9 = predEngine.Predict(Mnist28SampleData.Nine);
             DigitDisplayWindowViewModel digitDisplayWindowViewModel9 = new DigitDisplayWindowViewModel(Mnist28SampleData.Nine.Pixels, CountPredictedDigit(resultprediction9.Score));
-            digitDisplayWindowViewModel9.Show();
+            digitDisplayWindowViewModel9.ShowDialog();
 
         }
 
@@ -243,15 +243,13 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         #region Private Methods
         private EstimatorChain<KeyToValueMappingTransformer> ConfigureNetwork()
         {
-            // STEP 2: Common data process configuration with pipeline data transformations
-            // Use in-memory cache for small/medium datasets to lower training time. Do NOT use it (remove .AppendCacheCheckpoint()) when handling very large datasets.
+          
             var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("Label", "Digit", keyOrdinality: ValueToKeyMappingEstimator.KeyOrdinality.ByValue)
                 .Append(mlContext.Transforms.Concatenate("Features", nameof(MNIST28DataModel.Pixels))
                 //Normalizing data
                 .Append(mlContext.Transforms.NormalizeLpNorm(outputColumnName: nameof(MNIST28DataModel.Pixels)))
                 );
 
-            // STEP 3: Set the training algorithm, then create and config the modelBuilder
             var trainer = ApplyMultiTrainingAlgorithm(mlContext, TrainingAlgo);
 
 
@@ -262,19 +260,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             return trainingPipeline;
         }
 
-        /*private async Task<ITransformer> Train(EstimatorChain<KeyToValueMappingTransformer> pipeline)
-        {
-            ITransformer result = null;
-            //Thread trainingThread = new Thread(delegate () {
-            //    result = TrainThreadFunction(pipeline);
-            //});
-            //trainingThread.Start();
-            //trainingThread.Join();
 
-            result = await Task.Run(() => TrainThreadFunction(pipeline));
-
-            return result;
-        }*/
         private ITransformer Train(EstimatorChain<KeyToValueMappingTransformer> pipeline)
         {
             return pipeline.Fit(trainingData);
@@ -291,11 +277,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             this.TrainingAlgo = (MultiClassificationTrainingAlgorithm)algo;
         }
 
-        /*private ITransformer TrainThreadFunction(EstimatorChain<KeyToValueMappingTransformer> pipeline)
-        {
-            ITransformer trainedModel =  pipeline.Fit(trainingData);
-            return trainedModel;
-        */
         #endregion
     }
 }

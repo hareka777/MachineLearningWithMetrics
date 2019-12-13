@@ -9,19 +9,35 @@ using System.Threading.Tasks;
 
 namespace MachineLearningWithMetrics.Metrics
 {
+    /*
+     * Static class for the metrics object
+     */
     public static class MetricsInitializer 
     {
+        #region Fields
+
+        //Metrics object
         public static IMetricsRoot Metrics;
 
+        //Thread for machine metrics
         private static Thread machineMetricsThread = new Thread(new ThreadStart(LogMachineMetrics));
-        
+
+        #endregion
+
+        #region Constructor
         static MetricsInitializer()
         {
             InitializeMetrics();
         }
+        #endregion
+        /*
+         * Initializing metrics
+         */
+
+        #region Methods
         private static void InitializeMetrics()
         {
-
+            //Building the metrics object and setting host and port
             Metrics = AppMetrics.CreateDefaultBuilder()
                 .Report.ToInfluxDb(options =>
                 {
@@ -35,7 +51,7 @@ namespace MachineLearningWithMetrics.Metrics
                 })
                .Build();
             
-            
+            //Start logging metrics
             var scheduler = new AppMetricsTaskScheduler(
             TimeSpan.FromSeconds(5),
              async () =>
@@ -47,6 +63,9 @@ namespace MachineLearningWithMetrics.Metrics
             machineMetricsThread.Start();
         }
 
+        /*
+         * Thread function for logging metrics
+         */
         private static void LogMachineMetrics()
         {
             while (true)
@@ -61,5 +80,6 @@ namespace MachineLearningWithMetrics.Metrics
             }
             
         }
+        #endregion
     }
 }

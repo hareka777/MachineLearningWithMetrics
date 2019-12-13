@@ -4,6 +4,10 @@ using System.Windows.Media;
 
 namespace MachineLearningWithMetrics.ViewModels
 {
+    /*
+     * A window displaying the result of the prediction
+     * and shows the handwritten image. 
+     */
     public class DigitDisplayWindowViewModel : Window
     {
         #region Fields
@@ -21,6 +25,9 @@ namespace MachineLearningWithMetrics.ViewModels
         #endregion
 
         #region Private Methods
+        /*
+         * Drawing the digit using the image pixels
+         */
         private void DrawDigits(float[] pixels)
         {
             PixelGrid = new Grid();
@@ -44,8 +51,7 @@ namespace MachineLearningWithMetrics.ViewModels
                     PixelGrid.Children.Add(cellPanel);
                     pixelCount++;
                 }
-            }
-       
+            }     
             
 
             this.Content = this.PixelGrid;

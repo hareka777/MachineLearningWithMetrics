@@ -1,12 +1,11 @@
 ﻿using Microsoft.ML.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MachineLearningWithMetrics.MLdotNET.DataModel.MNIST28
 {
+    /*
+    * Data model class for multi classification
+    * Network output class
+    */
     public class MNIST28DataModelOutput
     {
         [ColumnName("Score")]

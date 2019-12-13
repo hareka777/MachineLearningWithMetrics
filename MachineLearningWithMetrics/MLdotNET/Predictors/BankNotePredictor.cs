@@ -9,8 +9,14 @@ using static MachineLearningWithMetrics.MLdotNET.Predictors.Common_Classes.Algor
 
 namespace MachineLearningWithMetrics.MLdotNET.Predictors
 {
+    /*
+     * Network builder class for binary classification
+     */
     public class BankNotePredictor : IPredictor
     {
+        /*
+         * File paths for data and networks
+         */
         #region Fields and Properties
         private static readonly string dataFolderPath = Paths.dataFolderPath + @"\BankNotes";
         private readonly string dataModelFolderPath = Paths.dataModelFolderPath + @"\BankNotes";
@@ -38,6 +44,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         {
             var predictions = trainedModel.Transform(testData);
             var metrics = mlContext.BinaryClassification.Evaluate(data: predictions, labelColumnName: "Label", scoreColumnName: "Score");
+            //Logging metrics: Test rate and accuracy
             _metrics.Measure.Gauge.SetValue(MetricsRegistry.TrainTestRate, MetricsTags.CreateMetricsTags(new string[] { "Network" }, new string[] { nameof(BankNotePredictor) }), TrainTestDataRate);
             _metrics.Measure.Gauge.SetValue(MetricsRegistry.NetworkEvaluatingResult, MetricsTags.CreateMetricsTags(new string[] { "Network", "Algorithm", "Metric", "TrainTestRate" }, new string[] { nameof(BankNotePredictor), this.TrainingAlgorithm.ToString(), "Accuracy", this.TrainTestDataRate.ToString() }), metrics.Accuracy);
 
@@ -46,7 +53,6 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         internal override IDataView LoadData(MLContext context, string dataPath)
         {
             IDataView loadedData = null;
-            //loading TrainingData
             string[] tags = new string[]{
                 this.ToString(),
                 this.TrainingAlgorithm.ToString(),
@@ -92,7 +98,7 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
                 this.TrainingAlgorithm.ToString(),
                 "Training the model"
                 };
-
+                //Measuring and logging training duration
                 using (_metrics.Measure.Timer.Time(MetricsRegistry.Timer, MetricsTags.CreateMetricsTags(tags)))
                 {
                     trainedModel = Train(pipeline);
@@ -180,12 +186,13 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
         private EstimatorChain<ITransformer> ConfigureNetwork()
         {
             var preparedData = mlContext.Transforms.Concatenate("Features", "Variance", "Skewness", "Kurtosis", "Entropy")
+                //Normalizing data
                 .Append(mlContext.Transforms.NormalizeMinMax(outputColumnName: nameof(BankNotesInput.Variance)))
                 .Append(mlContext.Transforms.NormalizeMinMax(outputColumnName: nameof(BankNotesInput.Skewness)))
                 .Append(mlContext.Transforms.NormalizeMinMax(outputColumnName: nameof(BankNotesInput.Kurtosis)))
                 .Append(mlContext.Transforms.NormalizeMinMax(outputColumnName: nameof(BankNotesInput.Entropy)));
 
-            //Apply tranier algo
+            //Apply tranier algorithm
             var trainer = ApplyBinaryTrainingAlgorithm(mlContext, TrainingAlgorithm);
 
             var pipeline = preparedData.Append(trainer);
@@ -209,6 +216,9 @@ namespace MachineLearningWithMetrics.MLdotNET.Predictors
             return "Bank note validity(Binary Classification)";
         }
 
+        /*
+         * Setting training algorithm
+         */
         public override void SetAlgorithm(object algo)
         {
             this.TrainingAlgorithm = (BinaryClassificationTrainingAlgorithm)algo;
