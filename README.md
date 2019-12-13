@@ -1,5 +1,6 @@
 # MachineLearningWithMetrics Application
-##Installation guide and steps
+
+Installation guide and steps
 
 1.  Clone this repository.
 2.  To set up Grafana, download it at https://grafana.com/grafana/download.
