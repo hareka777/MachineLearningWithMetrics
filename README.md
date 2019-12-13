@@ -17,3 +17,5 @@ Installation guide and steps
     More information available at https://grafana.com/docs/grafana/latest/reference/export_import/.
 11. Now, everything is ready to run and use the C# application.
    
+Application header image source:
+http://csreports.aspeninstitute.org/Roundtable-on-Artificial-Intelligence/2019/what-is
