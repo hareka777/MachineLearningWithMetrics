@@ -1,6 +1,29 @@
-# MachineLearningWithMetrics Application
+# Welcome to my BSc Thesis!
 
-Installation guide and steps
+During my BSc Thesis in 2019, I implemented different machine learning models and compared their performance using performance metrics.
+This repository contains the application I created in order to complete my BSc Thesis.
+
+## Summary
+
+In this thesis, I compare different machine learning models’ performance with
+metrics in case of different hyperparameters. The models are based on three
+different data sources to process. Prior to the execution of the training and the evaluation, several
+hyperparameters can be set by the user. The user is able to set the training algorithm, data source and the rate of the test data and the
+whole data set. The test data rate specifies the training data rate as well.
+
+When all the parameters are set by the user, we are ready to execute the selected model and evaluate its performance. We save the execution results into a time-series
+database using metrics. Next, we display all this real-time data aggregated on a
+dashboard.
+
+We measure different performance metrics, for example, the duration of training or
+evaluation, the accuracy and the related resource usage, like CPU and
+memory usage.
+
+As the result of this thesis, we will be familiar with the applied technologies’
+performance, key features, ,strengths, weaknesses and efficiency. This knowledge can support further projects
+related to this subject.
+
+## Installation guide and steps
 
 1.  Clone this repository.
 2.  To set up Grafana, download it at https://grafana.com/grafana/download.
