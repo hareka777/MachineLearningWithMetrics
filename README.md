@@ -11,7 +11,7 @@ different data sources to process. Prior to the execution of the training and th
 hyperparameters can be set by the user. The user is able to set the training algorithm, data source and the rate of the test data and the
 whole data set. The test data rate specifies the training data rate as well.
 
-When all the parameters are set by the user, we are ready to execute the selected model and evaluate its performance. We save the execution results into a time-series
+When all the parameters are set by the user, we are ready to execute the selected model and evaluate its performance. (Please note, the trained model are saved and at this point, we only need to load them.) We save the execution results into a time-series
 database using metrics. Next, we display all this real-time data aggregated on a
 dashboard.
 
