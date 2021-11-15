@@ -23,6 +23,8 @@ As the result of this thesis, we will be familiar with the applied technologiesâ
 performance, key features, ,strengths, weaknesses and efficiency. This knowledge can support further projects
 related to this subject.
 
+The thesis primarily uses the ML.NET and the AppMetrics packages.
+
 ## Installation guide and steps
 
 1.  Clone this repository.
@@ -42,3 +44,9 @@ related to this subject.
    
 Application header image source:
 http://csreports.aspeninstitute.org/Roundtable-on-Artificial-Intelligence/2019/what-is
+
+## The application
+
+The following image shows a small part of the metrics dashboard that monitors the machine learning models' performance.
+
+![image](https://user-images.githubusercontent.com/37445999/141823060-7748ff38-618a-4f20-8491-f1fb64448a6e.png)
